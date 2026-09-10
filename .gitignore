@@ -1,0 +1,18 @@
+# Python
+__pycache__/
+*.py[cod]
+*.egg-info/
+venv/
+.venv/
+
+# Environment
+.env
+
+# SQLite data (persisted via Docker volume / DATA_DIR at runtime)
+data/
+*.db
+*.db-journal
+
+# OS / editor
+.DS_Store
+.vscode/

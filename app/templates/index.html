@@ -1,0 +1,531 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Shovly-ai | Inference Provider Decision & On-Prem Governance Platform</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <style>
+        .tabular-nums { font-variant-numeric: tabular-nums; }
+    </style>
+</head>
+<body class="bg-slate-900 text-slate-100 min-h-screen font-sans antialiased">
+    <!-- Navigation Bar -->
+    <nav class="border-b border-slate-800 bg-slate-950/80 backdrop-blur sticky top-0 z-50">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-3.5 flex justify-between items-center">
+            <div class="flex items-center space-x-3">
+                <div class="w-8 h-8 rounded-lg bg-indigo-600 flex items-center justify-center font-black text-white shadow-lg shadow-indigo-500/30">
+                    S
+                </div>
+                <div>
+                    <span class="font-bold text-lg tracking-tight text-white">Shovly-ai</span>
+                    <span class="text-xs text-indigo-400 font-mono ml-2">v1.0-prod</span>
+                </div>
+            </div>
+            <div class="flex items-center space-x-4 text-xs font-medium text-slate-400">
+                <span class="inline-flex items-center px-2 py-1 rounded-full bg-emerald-500/10 text-emerald-400 border border-emerald-500/20">
+                    <span class="w-1.5 h-1.5 rounded-full bg-emerald-400 mr-1.5 animate-pulse"></span>
+                    APIs Live (20 Providers Indexed)
+                </span>
+                <span>SQLite DB Active</span>
+            </div>
+        </div>
+    </nav>
+
+    <main class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8 space-y-8">
+        
+        <!-- Hero Section: Decision Framework Overview -->
+        <header class="bg-gradient-to-r from-slate-950 to-slate-900 border border-slate-800 rounded-xl p-6 shadow-xl">
+            <div class="max-w-3xl">
+                <h1 class="text-2xl sm:text-3xl font-extrabold text-white tracking-tight mb-2">
+                    Inference Decision Framework & Governance
+                </h1>
+                <p class="text-sm text-slate-400 leading-relaxed">
+                    Aggregate real-time metrics across proprietary APIs, serverless aggregators, and private clusters. Model unit economics with retry and agentic tooling penalties, execute enterprise RFP compliance analysis, and benchmark against on-premise hardware CapEx/OpEx.
+                </p>
+            </div>
+        </header>
+
+        <!-- Interactive Job Cost Simulator & Historical Benchmark Chart -->
+        <div class="grid grid-cols-1 lg:grid-cols-12 gap-8">
+            <!-- Cost per Successful Job Simulator -->
+            <div class="lg:col-span-5 bg-slate-950 border border-slate-800 rounded-xl p-6 shadow-sm flex flex-col justify-between">
+                <div>
+                    <div class="flex items-center justify-between mb-4">
+                        <h2 class="text-base font-bold text-white uppercase tracking-wider text-xs">Job Cost Calculator</h2>
+                        <span class="text-xs bg-indigo-900/60 text-indigo-300 px-2 py-0.5 rounded border border-indigo-700/50">Production Agent Model</span>
+                    </div>
+                    <p class="text-xs text-slate-400 mb-4">Calculates true operational cost factoring prompt size, tool payloads, failure/retry penalties, and human review.</p>
+                    
+                    <div class="space-y-3 text-xs">
+                        <div class="grid grid-cols-2 gap-3">
+                            <div>
+                                <label class="block text-slate-400 mb-1">Input Tokens</label>
+                                <input type="number" id="calc_input" value="1500" class="w-full bg-slate-900 border border-slate-800 rounded p-2 text-white font-mono focus:border-indigo-500 focus:outline-none">
+                            </div>
+                            <div>
+                                <label class="block text-slate-400 mb-1">Output Tokens</label>
+                                <input type="number" id="calc_output" value="500" class="w-full bg-slate-900 border border-slate-800 rounded p-2 text-white font-mono focus:border-indigo-500 focus:outline-none">
+                            </div>
+                        </div>
+
+                        <div class="grid grid-cols-2 gap-3">
+                            <div>
+                                <label class="block text-slate-400 mb-1">Input $/1M Tokens</label>
+                                <input type="number" step="0.01" id="calc_pin" value="0.90" class="w-full bg-slate-900 border border-slate-800 rounded p-2 text-white font-mono focus:border-indigo-500 focus:outline-none">
+                            </div>
+                            <div>
+                                <label class="block text-slate-400 mb-1">Output $/1M Tokens</label>
+                                <input type="number" step="0.01" id="calc_pout" value="0.90" class="w-full bg-slate-900 border border-slate-800 rounded p-2 text-white font-mono focus:border-indigo-500 focus:outline-none">
+                            </div>
+                        </div>
+
+                        <div class="grid grid-cols-2 gap-3">
+                            <div>
+                                <label class="block text-slate-400 mb-1">Tool Calls per Job</label>
+                                <input type="number" id="calc_tools" value="3" class="w-full bg-slate-900 border border-slate-800 rounded p-2 text-white font-mono focus:border-indigo-500 focus:outline-none">
+                            </div>
+                            <div>
+                                <label class="block text-slate-400 mb-1">Tool Cost/Call ($)</label>
+                                <input type="number" step="0.001" id="calc_tool_cost" value="0.002" class="w-full bg-slate-900 border border-slate-800 rounded p-2 text-white font-mono focus:border-indigo-500 focus:outline-none">
+                            </div>
+                        </div>
+
+                        <div class="grid grid-cols-2 gap-3">
+                            <div>
+                                <label class="block text-slate-400 mb-1">Retry Rate (0.00 - 0.99)</label>
+                                <input type="number" step="0.01" id="calc_retry" value="0.08" class="w-full bg-slate-900 border border-slate-800 rounded p-2 text-white font-mono focus:border-indigo-500 focus:outline-none">
+                            </div>
+                            <div>
+                                <label class="block text-slate-400 mb-1">Human Review Rate</label>
+                                <input type="number" step="0.01" id="calc_review_rate" value="0.01" class="w-full bg-slate-900 border border-slate-800 rounded p-2 text-white font-mono focus:border-indigo-500 focus:outline-none">
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="mt-6 pt-4 border-t border-slate-800/80">
+                    <button onclick="runJobCostCalculation()" class="w-full bg-indigo-600 hover:bg-indigo-500 text-white font-medium py-2 rounded text-xs transition duration-150">
+                        Compute Unit Cost
+                    </button>
+
+                    <div class="mt-4 grid grid-cols-2 gap-2 text-xs">
+                        <div class="p-2.5 bg-slate-900 rounded border border-slate-800">
+                            <span class="block text-slate-500">Raw Attempt</span>
+                            <span id="res_single_attempt" class="font-mono font-bold text-slate-200">$0.000000</span>
+                        </div>
+                        <div class="p-2.5 bg-slate-900 rounded border border-indigo-900/50 bg-indigo-950/20">
+                            <span class="block text-indigo-400 font-medium">True Cost / Job</span>
+                            <span id="res_total_job" class="font-mono font-bold text-indigo-300 text-sm">$0.000000</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Historical Daily Benchmark Chart -->
+            <div class="lg:col-span-7 bg-slate-950 border border-slate-800 rounded-xl p-6 shadow-sm flex flex-col justify-between">
+                <div>
+                    <div class="flex items-center justify-between mb-2">
+                        <h2 class="text-base font-bold text-white uppercase tracking-wider text-xs">Hybrid Cost Benchmark (Daily)</h2>
+                        <div class="flex space-x-2 text-xs">
+                            <span class="text-slate-400">Window: <strong class="text-white">{{ eval_days }} Days</strong></span>
+                            <span class="text-slate-600">|</span>
+                            <span class="text-slate-400">Compute: <strong class="text-white">{{ compute_hours }} Hrs</strong></span>
+                        </div>
+                    </div>
+                    <p class="text-xs text-slate-400 mb-4">Compares cloud tiers against on-premise amortized infrastructure (CapEx + OpEx prorated line).</p>
+                    <div class="h-64 relative w-full">
+                        <canvas id="costComparisonChart"></canvas>
+                    </div>
+                </div>
+
+                <!-- On-Prem Historical Integration Box -->
+                <div class="mt-4 grid grid-cols-3 gap-3 text-xs bg-slate-900/80 p-3 rounded-lg border border-slate-800">
+                    <div>
+                        <span class="block text-slate-500 text-[11px]">On-Prem Total (Prorated)</span>
+                        <span class="font-mono font-bold text-emerald-400">${{ "%.2f"|format(prorated_on_prem_total) }}</span>
+                    </div>
+                    <div>
+                        <span class="block text-slate-500 text-[11px]">On-Prem Eff. $/hr</span>
+                        <span class="font-mono font-bold text-emerald-400">${{ "%.4f"|format(on_prem_eff_hourly) }}</span>
+                    </div>
+                    <div>
+                        <span class="block text-slate-500 text-[11px]">Annualized Infra Total</span>
+                        <span class="font-mono font-bold text-slate-200">${{ "%.2f"|format(total_annualized_on_prem) }}</span>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Provider Market Matrix & Decision Framework -->
+        <section class="bg-slate-950 border border-slate-800 rounded-xl p-6 shadow-sm">
+            <div class="flex flex-col sm:flex-row justify-between items-start sm:items-center gap-4 mb-6">
+                <div>
+                    <h2 class="text-lg font-bold text-white tracking-tight">Market Matrix: 20 Provider Offerings</h2>
+                    <p class="text-xs text-slate-400 mt-0.5">Filter by architectural tier, SLA, compliance, throughput, and pricing.</p>
+                </div>
+                <form method="GET" action="/" class="flex items-center space-x-2">
+                    <select name="tier_filter" onchange="this.form.submit()" class="bg-slate-900 border border-slate-800 rounded px-3 py-1.5 text-xs text-white focus:outline-none focus:border-indigo-500">
+                        <option value="All" {% if selected_tier == 'All' %}selected{% endif %}>All Architectural Categories</option>
+                        {% for t in tiers %}
+                        <option value="{{ t }}" {% if selected_tier == t %}selected{% endif %}>{{ t }}</option>
+                        {% endfor %}
+                    </select>
+                </form>
+            </div>
+
+            <div class="overflow-x-auto">
+                <table class="w-full text-left text-xs text-slate-300 border-collapse">
+                    <thead>
+                        <tr class="border-b border-slate-800 text-slate-400 bg-slate-900/50 font-mono">
+                            <th class="py-3 px-3">Provider</th>
+                            <th class="py-3 px-3">Category Tier</th>
+                            <th class="py-3 px-3">Model</th>
+                            <th class="py-3 px-3">Prompt $/1M</th>
+                            <th class="py-3 px-3">Output $/1M</th>
+                            <th class="py-3 px-3">Latency (TTFT)</th>
+                            <th class="py-3 px-3">Throughput</th>
+                            <th class="py-3 px-3">SLA</th>
+                            <th class="py-3 px-3">Compliance</th>
+                        </tr>
+                    </thead>
+                    <tbody class="divide-y divide-slate-800/60 font-mono">
+                        {% for item in offerings %}
+                        <tr class="hover:bg-slate-900/40 transition">
+                            <td class="py-2.5 px-3 font-sans font-semibold text-white">{{ item.provider_name }}</td>
+                            <td class="py-2.5 px-3 font-sans text-slate-400">{{ item.tier_category }}</td>
+                            <td class="py-2.5 px-3 text-indigo-300">{{ item.model_name }}</td>
+                            <td class="py-2.5 px-3">${{ "%.2f"|format(item.prompt_price_per_m) }}</td>
+                            <td class="py-2.5 px-3">${{ "%.2f"|format(item.output_price_per_m) }}</td>
+                            <td class="py-2.5 px-3">{{ item.ttft_ms }}ms</td>
+                            <td class="py-2.5 px-3">{{ item.tps }} tok/s</td>
+                            <td class="py-2.5 px-3">{{ item.sla_percentage }}%</td>
+                            <td class="py-2.5 px-3 font-sans">
+                                <div class="flex space-x-1">
+                                    {% if item.zero_data_retention %}
+                                    <span class="px-1.5 py-0.5 rounded text-[10px] bg-sky-950 text-sky-400 border border-sky-800" title="Zero Data Retention">ZDR</span>
+                                    {% endif %}
+                                    {% if item.hipaa_compliant %}
+                                    <span class="px-1.5 py-0.5 rounded text-[10px] bg-purple-950 text-purple-400 border border-purple-800" title="HIPAA Compliant">HIPAA</span>
+                                    {% endif %}
+                                    {% if item.soc2_compliant %}
+                                    <span class="px-1.5 py-0.5 rounded text-[10px] bg-emerald-950 text-emerald-400 border border-emerald-800" title="SOC2 Compliant">SOC2</span>
+                                    {% endif %}
+                                </div>
+                            </td>
+                        </tr>
+                        {% endfor %}
+                    </tbody>
+                </table>
+            </div>
+        </section>
+
+        <!-- Enterprise RFP Procurement Engine -->
+        <section class="bg-slate-950 border border-slate-800 rounded-xl p-6 shadow-sm">
+            <div class="flex flex-col sm:flex-row justify-between items-start sm:items-center gap-4 mb-4">
+                <div>
+                    <h2 class="text-lg font-bold text-white tracking-tight">Enterprise RFP Evaluation Engine</h2>
+                    <p class="text-xs text-slate-400 mt-0.5">Turn compliance specs and volume requirements into auditable vendor selection matrices.</p>
+                </div>
+                <button onclick="runRfpEvaluation()" class="bg-emerald-600 hover:bg-emerald-500 text-white font-medium py-1.5 px-4 rounded text-xs transition duration-150 shadow">
+                    Generate RFP Evidence
+                </button>
+            </div>
+
+            <div class="grid grid-cols-2 md:grid-cols-5 gap-4 mb-4 text-xs">
+                <div>
+                    <label class="block text-slate-400 mb-1">Monthly Req Volume</label>
+                    <input type="number" id="rfp_vol" value="2500000" class="w-full bg-slate-900 border border-slate-800 rounded p-2 text-white font-mono">
+                </div>
+                <div>
+                    <label class="block text-slate-400 mb-1">Min SLA Target (%)</label>
+                    <input type="number" step="0.01" id="rfp_sla" value="99.9" class="w-full bg-slate-900 border border-slate-800 rounded p-2 text-white font-mono">
+                </div>
+                <div class="flex items-center space-x-2 pt-5">
+                    <input type="checkbox" id="rfp_hipaa" class="rounded bg-slate-900 border-slate-800 text-indigo-600">
+                    <label for="rfp_hipaa" class="text-slate-300">Mandate HIPAA</label>
+                </div>
+                <div class="flex items-center space-x-2 pt-5">
+                    <input type="checkbox" id="rfp_zdr" checked class="rounded bg-slate-900 border-slate-800 text-indigo-600">
+                    <label for="rfp_zdr" class="text-slate-300">Mandate Zero Data Ret.</label>
+                </div>
+                <div class="flex items-center space-x-2 pt-5">
+                    <input type="checkbox" id="rfp_soc2" checked class="rounded bg-slate-900 border-slate-800 text-indigo-600">
+                    <label for="rfp_soc2" class="text-slate-300">Mandate SOC2 Type II</label>
+                </div>
+            </div>
+
+            <div id="rfp_output_container" class="hidden overflow-x-auto border-t border-slate-800 pt-4 mt-4">
+                <table class="w-full text-left text-xs text-slate-300 border-collapse">
+                    <thead>
+                        <tr class="border-b border-slate-800 text-slate-400 font-mono">
+                            <th class="py-2 px-2">Provider</th>
+                            <th class="py-2 px-2">Model</th>
+                            <th class="py-2 px-2">Projected Monthly Total</th>
+                            <th class="py-2 px-2">Status</th>
+                            <th class="py-2 px-2">Score</th>
+                            <th class="py-2 px-2">Audit Trace</th>
+                        </tr>
+                    </thead>
+                    <tbody id="rfp_table_body" class="divide-y divide-slate-800 font-mono"></tbody>
+                </table>
+            </div>
+        </section>
+
+        <!-- Collapsible On-Premises Cost Calculator -->
+        <details class="bg-slate-950 border border-slate-800 rounded-xl p-6 shadow-sm group">
+            <summary class="flex justify-between items-center cursor-pointer list-none text-white font-bold text-base tracking-wide">
+                <div class="flex items-center space-x-3">
+                    <span class="w-2.5 h-2.5 rounded-full bg-indigo-500"></span>
+                    <span>On-Premises Infrastructure Cluster Calculator</span>
+                </div>
+                <span class="text-xs text-indigo-400 group-open:rotate-180 transition duration-150">▼</span>
+            </summary>
+            
+            <p class="text-xs text-slate-400 mt-3 mb-6">
+                Benchmark cloud services against your capital asset investments. Calculates total annualization: 
+                <code class="text-indigo-300 bg-slate-900 px-1 py-0.5 rounded">(CapEx ÷ lifecycle) + annualized OpEx</code>, and derives hourly amortization rate based on 8,760 annual operating hours.
+            </p>
+
+            <!-- Cluster Addition Form -->
+            <form id="cluster_form" onsubmit="submitCluster(event)" class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-4 gap-4 mb-6 text-xs">
+                <div>
+                    <label class="block text-slate-400 mb-1">Cluster Identifier</label>
+                    <input type="text" name="name" placeholder="e.g. DGX-H100-Rack-01" required class="w-full bg-slate-900 border border-slate-800 rounded p-2 text-white font-mono">
+                </div>
+                <div>
+                    <label class="block text-slate-400 mb-1">CapEx ($)</label>
+                    <input type="number" step="1" name="capex" placeholder="320000" required class="w-full bg-slate-900 border border-slate-800 rounded p-2 text-white font-mono">
+                </div>
+                <div>
+                    <label class="block text-slate-400 mb-1">Lifecycle (yrs, 1-50)</label>
+                    <input type="number" step="0.5" min="1" max="50" name="lifecycle" placeholder="3" required class="w-full bg-slate-900 border border-slate-800 rounded p-2 text-white font-mono">
+                </div>
+                <div>
+                    <label class="block text-slate-400 mb-1">OpEx ($)</label>
+                    <input type="number" step="1" name="opex" placeholder="45000" required class="w-full bg-slate-900 border border-slate-800 rounded p-2 text-white font-mono">
+                </div>
+                <div>
+                    <label class="block text-slate-400 mb-1">OpEx Period</label>
+                    <select name="opex_period" class="w-full bg-slate-900 border border-slate-800 rounded p-2 text-white font-mono">
+                        <option value="Annual">Annual</option>
+                        <option value="Monthly">Monthly</option>
+                    </select>
+                </div>
+                <div>
+                    <label class="block text-slate-400 mb-1">Funding Source</label>
+                    <select name="funding_source" class="w-full bg-slate-900 border border-slate-800 rounded p-2 text-white font-mono">
+                        <option value="Federal Grant">Federal Grant</option>
+                        <option value="Philanthropy">Philanthropy</option>
+                        <option value="Capital Fund">Capital Fund</option>
+                        <option value="Departmental">Departmental</option>
+                        <option value="Other">Other</option>
+                    </select>
+                </div>
+                <div class="sm:col-span-2">
+                    <label class="block text-slate-400 mb-1">Attribution Note</label>
+                    <input type="text" name="note" placeholder="NSF Grant #4912-AI Cluster Allocation" class="w-full bg-slate-900 border border-slate-800 rounded p-2 text-white font-mono">
+                </div>
+                <div class="sm:col-span-4 flex justify-end mt-2">
+                    <button type="submit" class="bg-indigo-600 hover:bg-indigo-500 text-white font-medium py-2 px-6 rounded text-xs transition">
+                        Commit Cluster to SQLite
+                    </button>
+                </div>
+            </form>
+
+            <!-- Persisted Clusters Table -->
+            <div class="overflow-x-auto">
+                <table class="w-full text-left text-xs text-slate-300 border-collapse">
+                    <thead>
+                        <tr class="border-b border-slate-800 text-slate-400 font-mono bg-slate-900/50">
+                            <th class="py-2.5 px-3">Cluster</th>
+                            <th class="py-2.5 px-3">CapEx</th>
+                            <th class="py-2.5 px-3">Lifecycle</th>
+                            <th class="py-2.5 px-3">OpEx</th>
+                            <th class="py-2.5 px-3">Funding</th>
+                            <th class="py-2.5 px-3">Annual Total</th>
+                            <th class="py-2.5 px-3">Cost/hr (8760h)</th>
+                            <th class="py-2.5 px-3 text-right">Action</th>
+                        </tr>
+                    </thead>
+                    <tbody class="divide-y divide-slate-800 font-mono">
+                        {% for c in clusters %}
+                        <tr>
+                            <td class="py-2 px-3 font-semibold text-white">{{ c.name }}</td>
+                            <td class="py-2 px-3">${{ "%.0f"|format(c.capex) }}</td>
+                            <td class="py-2 px-3">{{ c.lifecycle }} yrs</td>
+                            <td class="py-2 px-3">${{ "%.0f"|format(c.opex) }} ({{ c.opex_period }})</td>
+                            <td class="py-2 px-3 text-slate-400">{{ c.funding_source }}</td>
+                            <td class="py-2 px-3 text-emerald-400">${{ "%.2f"|format(c.annual_total) }}</td>
+                            <td class="py-2 px-3 text-emerald-400">${{ "%.4f"|format(c.cost_per_hr) }}</td>
+                            <td class="py-2 px-3 text-right">
+                                <button onclick="deleteCluster({{ c.id }})" class="text-rose-400 hover:text-rose-300 text-xs underline font-sans">
+                                    Clear
+                                </button>
+                            </td>
+                        </tr>
+                        {% endfor %}
+                    </tbody>
+                </table>
+            </div>
+        </details>
+
+    </main>
+
+    <script>
+        // Interactive Job Cost calculation
+        async function runJobCostCalculation() {
+            const payload = {
+                input_tokens: parseInt(document.getElementById('calc_input').value),
+                output_tokens: parseInt(document.getElementById('calc_output').value),
+                prompt_price_per_m: parseFloat(document.getElementById('calc_pin').value),
+                output_price_per_m: parseFloat(document.getElementById('calc_pout').value),
+                tool_calls: parseInt(document.getElementById('calc_tools').value),
+                tool_cost_per_call: parseFloat(document.getElementById('calc_tool_cost').value),
+                retry_rate: parseFloat(document.getElementById('calc_retry').value),
+                human_review_rate: parseFloat(document.getElementById('calc_review_rate').value),
+                human_review_cost: 0.50
+            };
+
+            const res = await fetch('/api/calculate-job-cost', {
+                method: 'POST',
+                headers: {'Content-Type': 'application/json'},
+                body: JSON.stringify(payload)
+            });
+            const data = await res.json();
+            document.getElementById('res_single_attempt').innerText = '$' + data.single_attempt_cost.toFixed(6);
+            document.getElementById('res_total_job').innerText = '$' + data.total_cost_per_successful_job.toFixed(6);
+        }
+
+        // On-Prem Cluster Submit
+        async function submitCluster(e) {
+            e.preventDefault();
+            const form = document.getElementById('cluster_form');
+            const formData = new FormData(form);
+            const res = await fetch('/api/clusters', {
+                method: 'POST',
+                body: formData
+            });
+            if(res.ok) {
+                window.location.reload();
+            }
+        }
+
+        // On-Prem Cluster Clear
+        async function deleteCluster(id) {
+            const res = await fetch(`/api/clusters/${id}`, { method: 'DELETE' });
+            if(res.ok) {
+                window.location.reload();
+            }
+        }
+
+        // Enterprise RFP Generator
+        async function runRfpEvaluation() {
+            const payload = {
+                monthly_requests: parseInt(document.getElementById('rfp_vol').value),
+                avg_input_tokens: 1200,
+                avg_output_tokens: 400,
+                require_hipaa: document.getElementById('rfp_hipaa').checked,
+                require_zero_retention: document.getElementById('rfp_zdr').checked,
+                require_soc2: document.getElementById('rfp_soc2').checked,
+                min_sla: parseFloat(document.getElementById('rfp_sla').value)
+            };
+
+            const res = await fetch('/api/rfp-scorecard', {
+                method: 'POST',
+                headers: {'Content-Type': 'application/json'},
+                body: JSON.stringify(payload)
+            });
+            const data = await res.json();
+            
+            const container = document.getElementById('rfp_output_container');
+            const tbody = document.getElementById('rfp_table_body');
+            tbody.innerHTML = '';
+            container.classList.remove('hidden');
+
+            data.slice(0, 10).forEach(row => {
+                const tr = document.createElement('tr');
+                tr.className = row.compliant ? "hover:bg-slate-900/50" : "opacity-40 hover:bg-slate-900/50";
+                tr.innerHTML = `
+                    <td class="py-2 px-2 font-sans font-semibold text-white">${row.provider}</td>
+                    <td class="py-2 px-2 text-indigo-300">${row.model}</td>
+                    <td class="py-2 px-2 text-slate-100">$${row.projected_monthly_cost.toLocaleString()}</td>
+                    <td class="py-2 px-2">${row.compliant ? '<span class="text-emerald-400">PASSED</span>' : '<span class="text-rose-400">FAILED</span>'}</td>
+                    <td class="py-2 px-2 font-bold text-white">${row.composite_procurement_score}</td>
+                    <td class="py-2 px-2 text-slate-500 text-[11px] font-sans">${row.disqualifications.length > 0 ? row.disqualifications.join(", ") : "All RFP targets met"}</td>
+                `;
+                tbody.appendChild(tr);
+            });
+        }
+
+        // Initialize Historical Benchmarking Chart
+        window.addEventListener('DOMContentLoaded', () => {
+            const ctx = document.getElementById('costComparisonChart').getContext('2d');
+            const evalDays = {{ eval_days }};
+            const labels = Array.from({length: evalDays}, (_, i) => `Day ${i + 1}`);
+
+            // Daily cost lines simulation
+            const cloudOnDemandDaily = labels.map((_, i) => 240 + Math.sin(i) * 35 + (i * 2.5));
+            const cloudReservedDaily = labels.map(() => 180);
+            
+            // Third Line: On-Prem Daily Prorated Amortization (derived from CapEx/OpEx)
+            const onPremDailyProration = {{ prorated_on_prem_total }} / evalDays;
+            const onPremLine = labels.map(() => onPremDailyProration);
+
+            new Chart(ctx, {
+                type: 'line',
+                data: {
+                    labels: labels,
+                    datasets: [
+                        {
+                            label: 'Cloud On-Demand Tier',
+                            data: cloudOnDemandDaily,
+                            borderColor: '#818cf8',
+                            backgroundColor: 'transparent',
+                            borderWidth: 2,
+                            tension: 0.3
+                        },
+                        {
+                            label: 'Cloud Reserved Tier',
+                            data: cloudReservedDaily,
+                            borderColor: '#38bdf8',
+                            backgroundColor: 'transparent',
+                            borderWidth: 1.5,
+                            borderDash: [4, 4]
+                        },
+                        {
+                            label: 'On-Prem Infrastructure (Amortized CapEx + OpEx)',
+                            data: onPremLine,
+                            borderColor: '#34d399',
+                            backgroundColor: 'rgba(52, 211, 153, 0.05)',
+                            fill: true,
+                            borderWidth: 2.5
+                        }
+                    ]
+                },
+                options: {
+                    responsive: true,
+                    maintainAspectRatio: false,
+                    scales: {
+                        x: { grid: { color: 'rgba(255, 255, 255, 0.05)' }, ticks: { color: '#94a3b8', font: { size: 10 } } },
+                        y: { 
+                            grid: { color: 'rgba(255, 255, 255, 0.05)' }, 
+                            ticks: { 
+                                color: '#94a3b8', 
+                                font: { size: 10 },
+                                callback: (v) => '$' + v 
+                            } 
+                        }
+                    },
+                    plugins: {
+                        legend: { position: 'top', labels: { color: '#cbd5e1', font: { size: 11 } } }
+                    }
+                }
+            });
+
+            runJobCostCalculation();
+        });
+    </script>
+</body>
+</html>

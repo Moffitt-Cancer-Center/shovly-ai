@@ -1,0 +1,23 @@
+[Unit]
+Description=Shovly-ai Native FastAPI Service
+After=network.target
+
+[Service]
+# Recommended: Create a dedicated non-root user for execution
+User=shovly
+Group=shovly
+WorkingDirectory=/opt/shovly-ai
+
+# Expose required environment variables
+Environment="PATH=/opt/shovly-ai/venv/bin"
+Environment="DATA_DIR=/opt/shovly-ai/data"
+Environment="APP_ENV=production"
+
+# Execute Uvicorn directly from the virtual environment
+ExecStart=/opt/shovly-ai/venv/bin/uvicorn app.main:app --host 0.0.0.0 --port 8000 --workers 2
+Restart=always
+RestartSec=5
+KillSignal=SIGQUIT
+
+[Install]
+WantedBy=multi-user.target
