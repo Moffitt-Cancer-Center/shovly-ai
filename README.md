@@ -232,4 +232,4 @@ Use only one of the two service definitions per host, depending on whether you a
 
 ## License
 
-Proprietary — internal use only, Moffitt Cancer Center.
+MIT License — see [LICENSE](LICENSE) for details.
